@@ -1,8 +1,9 @@
+// Clock
+
 class Clock {
   constructor() {
 
     let time = new Date();
-    // 1. Create a Date object.
     this.hours = time.getHours();
     this.minutes = time.getMinutes();
     this.seconds = time.getSeconds();
@@ -10,9 +11,6 @@ class Clock {
     this.printTime();
 
     setInterval(this._tick.bind(this), 1000);
-    // 2. Store the hours, minutes, and seconds.
-    // 3. Call printTime.
-    // 4. Schedule the tick at 1 second intervals.
   }
 
   printTime() {
@@ -33,8 +31,6 @@ class Clock {
     }
 
     this.printTime();
-    // 1. Increment the time by one second.
-    // 2. Call printTime.
   }
 }
 
