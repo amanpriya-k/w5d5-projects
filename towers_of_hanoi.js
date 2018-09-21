@@ -5,12 +5,10 @@ const reader = readline.createInterface({
   output: process.stdout
 });
 
-
-
 class Game {
 
   constructor() {
-    this.towers = [[1, 2, 3], [], []];
+    this.towers = [[3, 2, 1], [], []];
   }
 
   promptMove(callback) {
@@ -31,21 +29,32 @@ class Game {
   }
 
   isValidMove(startIdx, endIdx) {
-    this.displayTowers();
-    console.log(`can u move from ${startIdx} to ${endIdx}?`)
     if (this.towers[startIdx].length === 0) {
-      console.log('false')
       return false;
-    } else {
-      console.log('true')
-      return true;
+    } else if (this.towers[startIdx].slice(-1)[0] > this.towers[endIdx].slice(-1)[0]) {
+      return false;
     }
-    // if (this.towers[startIdx].length == 0 || ( this.towers[startIdx].slice(-1)[0] > this.towers[endIdx].slice(-1)[0] )) {
-    //   return true;
-    // }
-    // return true;
+    return true;
   }
 
+  move(startTowerIdx, endTowerIdx) {
+    this.displayTowers();
+    if (!this.isValidMove(startTowerIdx, endTowerIdx)) {
+      return false;
+    }
+    let lastEl = this.towers[startTowerIdx].pop();
+    this.towers[endTowerIdx].push(lastEl);
+    this.displayTowers();
+  }
+
+  isWon() {
+    if (this.towers[1].length === 3 || this.towers[2].length === 3) {
+      console.log('won')
+      return true;
+    }
+    console.log('not won')
+    return false;
+  }
 
   displayTowers() {
     console.log('Current state: ')
@@ -57,9 +66,18 @@ class Game {
 
 }
 
+
+// testing individual methods
 const game = new Game();
 // game.displayTowers();
 // game.isValidMove(0, 1);
 // game.isValidMove(2, 1);
 // game.isValidMove(1, 0);
 // game.promptMove((s, e) => (console.log(s, e)));
+// // game.move(0, 1);
+// game.towers = [[], [3, 2, 1], []];
+// game.isWon();
+// game.towers = [[], [], [3, 2, 1]];
+// game.isWon();
+// game.towers = [[], [1], [3, 2]];
+// game.isWon();
