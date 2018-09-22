@@ -66,13 +66,21 @@ class Game {
   run(callback) {
     while (!this.isWon()) {
       let moveable;
-      this.promptMove( (start, end) => ( moveable = this.isValidMove(start, end) ) );
-      if (moveable) {
-        console.log('prompted and moveable')
-      } else {
-        console.log('invalid move.')
-        return false;
-      }
+      this.promptMove( (start, end) => {
+        if (this.isValidMove(start, end)) {
+          this.move(start, end);
+          console.log(moved);
+        } else {
+          console.log('invalid move')
+        }
+       }
+      );
+      // if (moveable) {
+      //   console.log('prompted and moveable')
+      // } else {
+      //   console.log('invalid move.')
+      //   return false;
+      // }
     }
     console.log('you won!')
     this.displayTowers();
