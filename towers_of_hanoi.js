@@ -65,7 +65,7 @@ class Game {
 
   run(callback) {
     while (!this.isWon()) {
-      let moveable = false;
+      let moveable;
       this.promptMove( (start, end) => ( moveable = this.isValidMove(start, end) ) );
       if (moveable) {
         console.log('prompted and moveable')
