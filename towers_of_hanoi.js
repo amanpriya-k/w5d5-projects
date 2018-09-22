@@ -21,7 +21,7 @@ class Game {
           function(response2) {
             let endTower = parseInt(response2);
 
-            callback(startTower, endTower);
+            return callback(startTower, endTower);
           }
         )
       }
@@ -38,13 +38,12 @@ class Game {
   }
 
   move(startTowerIdx, endTowerIdx) {
-    this.displayTowers();
-    if (!this.isValidMove(startTowerIdx, endTowerIdx)) {
-      return false;
+    if (this.isValidMove(startTowerIdx, endTowerIdx)) {
+      let lastEl = this.towers[startTowerIdx].pop();
+      this.towers[endTowerIdx].push(lastEl);
+      return true;
     }
-    let lastEl = this.towers[startTowerIdx].pop();
-    this.towers[endTowerIdx].push(lastEl);
-    this.displayTowers();
+    return false;
   }
 
   isWon() {
@@ -64,6 +63,23 @@ class Game {
     console.log('-----------------')
   }
 
+  run(callback) {
+    while (!this.isWon()) {
+      let moveable = false;
+      this.promptMove( (start, end) => ( moveable = this.isValidMove(start, end) ) );
+      if (moveable) {
+        console.log('prompted and moveable')
+      } else {
+        console.log('invalid move.')
+        return false;
+      }
+    }
+    console.log('you won!')
+    this.displayTowers();
+    callback();
+    return true;
+  }
+
 }
 
 
@@ -81,3 +97,4 @@ const game = new Game();
 // game.isWon();
 // game.towers = [[], [1], [3, 2]];
 // game.isWon();
+game.run( () => console.log('game over'));
